@@ -15,7 +15,7 @@ if (isset($_POST['email']) && isset($_POST['senha'])){
     // Criptografar a senha
     $senha_cripto = password_hash($senha_digitada,PASSWORD_BCRYPT);
     try{
-        $sql = "INSERT INTO alunoatv (email,senha,nome,cpf) VALUES (:email,:senha,:nome,:cpf)";
+        $sql = "INSERT INTO aluno (email,senha,nome,cpf) VALUES (:email,:senha,:nome,:cpf)";
         $stmt = $pdo->prepare($sql);
 
         $stmt->bindParam(':email', $email);
