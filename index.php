@@ -154,7 +154,7 @@ if($_SERVER["REQUEST_METHOD"] === "POST"){
     }
     try {
         // Preparar e executar a consulta para verificar as credenciais
-        $sql = "SELECT senha FROM alunoatv WHERE email = :email";
+        $sql = "SELECT senha FROM aluno WHERE email = :email";
         $stmt = $pdo->prepare($sql);
         $stmt->bindParam(':email', $email);
         $stmt->execute();

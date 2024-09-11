@@ -98,193 +98,24 @@ $ultimaInscricao = isset($_SESSION['ultima_inscricao']) ? $_SESSION['ultima_insc
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="style_inscricao.css">
     <title>Inscrição</title>
-    <style>
-        
-        body {
-            font-family: Arial, sans-serif;
-            background-color: #f0f0f0;
-            margin: 0;
-            padding: 0;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-        }
-
-        header {
-            width: 100%;
-            background-color: #EEEBE6;
-            color: white;
-            padding: 10px 20px;
-            box-sizing: border-box;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-            position: fixed;
-            top: 0;
-            left: 0;
-            z-index: 1000;
-        }
-
-        header h1 {
-            margin: 0;
-            font-size: 24px;
-        }
-
-        header .user {
-            padding-left: 0px;
-        }
-
-        header .user-menu {
-            display: flex;
-            align-items: center;
-        }
-
-        header .user-menu select {
-            background-color: #EEEBE6;
-            border: none !important;
-            padding: 5px;
-            font-size: 16px;
-            margin-right: 10px;
-            cursor: pointer;
-        }
-        header .user-menu select option :hover {
-            background-color: #FF4500;
-          
-        }
-
-
-        header button {
-            background-color: #FF6347;
-            color: white;
-            padding: 10px 20px;
-            border: none;
-            border-radius: 4px;
-            cursor: pointer;
-            font-size: 16px;
-        }
-
-        header button:hover {
-            background-color: #FF4500;
-        }
-
-        .container {
-            display: flex;
-            justify-content: space-between;
-            align-items: flex-start;
-            margin-top: 70px; 
-            width: 90%;
-            max-width: 1200px;
-        }
-
-        main {
-            width: 65%;
-            background-color: #ffffff;
-            padding: 20px;
-            border-radius: 8px;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-            margin-right: 20px;
-            box-sizing: border-box;
-        }
-
-        aside {
-            width: 30%;
-            background-color: #ffffff;
-            padding: 20px;
-            border-radius: 8px;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-            box-sizing: border-box;
-        }
-
-        h1, h2 {
-            color: #333;
-        }
-
-        form {
-            display: flex;
-            flex-direction: column;
-        }
-
-        form label {
-            font-size: 16px;
-            margin-bottom: 5px;
-            color: #555;
-        }
-
-        form input[type="text"],
-        form input[type="email"],
-        form select {
-            padding: 10px;
-            margin-bottom: 20px;
-            border: 1px solid #ccc;
-            border-radius: 4px;
-            font-size: 14px;
-            width: calc(100% - 22px);
-            box-sizing: border-box;
-        }
-
-        form input[type="radio"],
-        form input[type="checkbox"] {
-            margin-right: 10px;
-            transform: scale(1.2);
-        }
-
-        .radio-group, .checkbox-group {
-            display: flex;
-            align-items: center;
-            margin-bottom: 10px;
-        }
-
-        .radio-group label, .checkbox-group label {
-            margin: 0;
-            margin-left: 5px;
-            font-size: 16px;
-            color: #555;
-        }
-
-        form input[type="submit"] {
-            background-color: #4CAF50;
-            color: white;
-            padding: 12px 20px;
-            border: none;
-            border-radius: 4px;
-            cursor: pointer;
-            font-size: 16px;
-            width: 100%;
-            margin-top: 20px;
-        }
-
-        form input[type="submit"]:hover {
-            background-color: #45a049;
-        }
-
-        aside h2 {
-            margin-bottom: 15px;
-        }
-
-        aside span {
-            display: block;
-            margin-bottom: 10px;
-            font-weight: bold;
-            color: #555;
-        }
-    </style>
 </head>
 <body>
-    <header>
-        <h1>Área do candidato</h1>
-        <div class="user-menu">
-            <h2>Bem-vindo,</h2>
-            <select name="user-action" onchange="handleMenuChange(this)">
-                <option value="" disabled selected> <?php echo htmlspecialchars($emailSessao); ?></option>
-                <option value="inscricao.php">Inscrições</option>
-                <option value="minha_conta.php">Minha Conta</option>
-            </select>
-        <!-- <h1 class="user"><?php echo htmlspecialchars($emailSessao); ?></h1> -->
+<header>
+    <h1>Área do candidato</h1>
+    <div class="user-menu">
+        <h2>Bem-vindo,</h2>
+        <div class="dropdown">
+            <button class="dropbtn"><?php echo htmlspecialchars($emailSessao); ?></button>
+            <div class="dropdown-content">
+                <a href="inscricao.php">Inscrições</a>
+                <a href="minhaconta.php">Minha Conta</a>
+            </div>
+        </div>
         <form action="logout.php"><button>Sair</button></form>
-        
-    </header>
+    </div>
+</header>
 
     <div class="container">
         <main>
