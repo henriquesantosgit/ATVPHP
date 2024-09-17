@@ -16,6 +16,72 @@ else{
 }
 
 ?>
+<?php
+if($_POST){
+$email = $_POST['email'];
+$password = $_POST['password'];
+
+if($email=="aluno@fatec.com" && $password=="Aluno123"){
+    header("location: inscricao.php");
+}
+}
+
+if($_SERVER["REQUEST_METHOD"] === "POST"){
+    session_start();
+    if(isset($_POST["btnCookie"])){
+        $nm_email = "email";
+        $valor_email = $_POST['email'];
+        // Time retorna quantos segundos vai durar o cookie,3600 dura 1h
+        $duracao_email = time()+3600;
+        // Poderia ser direto
+        setcookie($nm_email,$valor_email,$duracao_email);
+    }
+    if(isset($_POST["btnCookie"])){
+        $nm_password = "password";
+        $valor_password = $_POST['password'];
+        // Time retorna quantos segundos vai durar o cookie,3600 dura 1h
+        $duracao_password = time()+3600;
+        // Poderia ser direto
+        setcookie($nm_password,$valor_password,$duracao_password);
+    }
+    $email = $_POST['email'];
+    $password = $_POST['password'];
+    $_SESSION['email'] = $email;
+    if (empty($email) || empty($password)) {
+        echo "Por favor, preencha todos os campos.";
+        exit;
+    }
+    try {
+        // Preparar e executar a consulta para verificar as credenciais
+        $sql = "SELECT senha FROM aluno WHERE email = :email";
+        $stmt = $pdo->prepare($sql);
+        $stmt->bindParam(':email', $email);
+        $stmt->execute();
+
+        $user = $stmt->fetch(PDO::FETCH_ASSOC);
+
+        if ($user && password_verify($password, $user['senha'])) {
+            // Se as credenciais forem válidas
+            $_SESSION['email'] = $email;
+
+            if (isset($_POST['btnCookie'])) {
+                // Definir cookies se a opção "Manter conectado" estiver marcada
+                setcookie('email', $email, time() + 3600); // 1 hora
+                setcookie('password', $password, time() + 3600); // 1 hora
+            }
+
+            header("Location: inscricao.php");
+            exit;
+        } else {
+            echo "E-mail ou senha incorretos.";
+        }
+    } catch (PDOException $e) {
+        echo "Erro ao verificar as credenciais: " . $e->getMessage();
+    }
+
+}
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -117,71 +183,4 @@ else{
     
 </body>
 </html>
-<?php
-if($_POST){
-$email = $_POST['email'];
-$password = $_POST['password'];
 
-if($email=="aluno@fatec.com" && $password=="Aluno123"){
-    header("location: inscricao.php");
-}
-}
-
-if($_SERVER["REQUEST_METHOD"] === "POST"){
-    session_start();
-    if(isset($_POST["btnCookie"])){
-        $nm_email = "email";
-        $valor_email = $_POST['email'];
-        // Time retorna quantos segundos vai durar o cookie,3600 dura 1h
-        $duracao_email = time()+3600;
-        // Poderia ser direto
-        setcookie($nm_email,$valor_email,$duracao_email);
-    }
-    if(isset($_POST["btnCookie"])){
-        $nm_password = "password";
-        $valor_password = $_POST['password'];
-        // Time retorna quantos segundos vai durar o cookie,3600 dura 1h
-        $duracao_password = time()+3600;
-        // Poderia ser direto
-        setcookie($nm_password,$valor_password,$duracao_password);
-    }
-    $email = $_POST['email'];
-    $password = $_POST['password'];
-    $_SESSION['email'] = $email;
-    if (empty($email) || empty($password)) {
-        echo "Por favor, preencha todos os campos.";
-        exit;
-    }
-    try {
-        // Preparar e executar a consulta para verificar as credenciais
-        $sql = "SELECT senha FROM aluno WHERE email = :email";
-        $stmt = $pdo->prepare($sql);
-        $stmt->bindParam(':email', $email);
-        $stmt->execute();
-
-        $user = $stmt->fetch(PDO::FETCH_ASSOC);
-
-        if ($user && password_verify($password, $user['senha'])) {
-            // Se as credenciais forem válidas
-            $_SESSION['email'] = $email;
-
-            if (isset($_POST['btnCookie'])) {
-                // Definir cookies se a opção "Manter conectado" estiver marcada
-                setcookie('email', $email, time() + 3600); // 1 hora
-                setcookie('password', $password, time() + 3600); // 1 hora
-            }
-
-            header("Location: inscricao.php");
-            exit;
-        } else {
-            echo "E-mail ou senha incorretos.";
-        }
-    } catch (PDOException $e) {
-        echo "Erro ao verificar as credenciais: " . $e->getMessage();
-    }
-
-}
-?>
-<?php 
-
-?>
