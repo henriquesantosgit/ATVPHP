@@ -21,37 +21,16 @@ if (isset($_SESSION['email'])) {
     header("Location: index.php");
     exit();
 }
-
-try{
-    $sql = " SELECT nome,email,cpf FROM aluno WHERE email = :email";    
-    $stmt = $pdo->prepare($sql);
-    $stmt->bindParam(':email', $emailSessao);
-    $stmt->execute();
-
-    if ($stmt->rowCount() > 0) {
-        $usuario = $stmt->fetch(PDO::FETCH_ASSOC);
-        $nome = htmlspecialchars($usuario['nome']);
-        $email = htmlspecialchars($usuario['email']);
-        $cpf = htmlspecialchars($usuario['cpf']);
-    } else {
-        echo "Usuário não encontrado.";
-    }
-} catch (PDOException $e) {
-    echo "Erro ao buscar os dados: " . $e->getMessage();
-}
-
-
-
-
-
 ?>
+
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Inscrição</title>
-    <link rel="stylesheet" href="style_mconta.css">
+    <title>Loja</title>
+    <link rel="stylesheet" href="style_loja.css">
     
         
        
@@ -74,19 +53,34 @@ try{
         
     </header>
 
-<div class="dados"> 
-    <h2>Dados do Usuário</h2>
-    <p><span>Nome:</span><br> <?php echo $nome; ?></p>
-    <p><span>E-mail:</span> <br><?php echo $email; ?></p>
-    <p><span>CPF:</span> <br><?php echo $cpf; ?></p>
+    <?php 
+$urlAPI = "https://fakestoreapi.com/products";
+
+$imagens = file_get_contents($urlAPI);
+
+$produtos = json_decode($imagens, true);
+$produtos_eletronicos = array_filter($produtos, function($produto) {
+    return $produto["category"] === "electronics";
+});
+?>
+<div class="container-produtos">
+<?php
+foreach($produtos_eletronicos as $p){
+    ?>
+    <div class="card-produto">
+        <img src="<?php echo $p['image']; ?>" alt="<?php echo htmlspecialchars($p['title']); ?>">
+        <h3><?php echo htmlspecialchars($p['title']); ?></h3>
+        <p class="preco">R$<?php echo ($p['price']); ?></p>
+    </div>
+    <?php
+}
+?>
 </div>
-   <div class="btnD">
-    <a href="delete.php">Excluir conta</a>
-    
-   </div>
-   <div class="btnA">
-   <a href="atualizarSenhapagina.php">Alterar Senha</a>
-   </div>
+<?php
+
+echo "<br>";
+
+?>
   
 </body>
 <script>

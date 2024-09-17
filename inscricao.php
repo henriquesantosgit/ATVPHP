@@ -111,6 +111,7 @@ $ultimaInscricao = isset($_SESSION['ultima_inscricao']) ? $_SESSION['ultima_insc
             <div class="dropdown-content">
                 <a href="inscricao.php">Inscrições</a>
                 <a href="minhaconta.php">Minha Conta</a>
+                <a href="consumirLoja.php">Loja</a>
             </div>
         </div>
         <form action="logout.php"><button>Sair</button></form>
